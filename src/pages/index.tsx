@@ -10,6 +10,7 @@ const Home: NextPage = () => {
         <meta name="description" content="A Better Way to Track Patterson City Council Meetings" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="text-3xl">Test</div>
     </>
   );
 };

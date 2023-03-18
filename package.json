@@ -10,6 +10,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.13",
+    "@heroicons/react": "^2.0.16",
     "@prisma/client": "^4.9.0",
     "next": "^13.2.1",
     "react": "18.2.0",

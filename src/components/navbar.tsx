@@ -12,7 +12,7 @@ const navigation = [
   { name: "About Us", href: "/about-us", current: false },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -39,14 +39,22 @@ export const Navbar = () => {
                   <div className="flex flex-shrink-0 items-center">
                     <Link href="/">
                       <>
-                        <Image src={bpcsLogo} width={80} />
+                        <Image src={bpcsLogo} alt="BPCS Logo" width={80} />
                       </>
                     </Link>
                   </div>
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
                       {navigation.map((item) => (
-                        <Link href={item.href} className={"text-neutral-off-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium"}>{item.name}</Link>
+                        <Link
+                          href={item.href}
+                          key={item.name}
+                          className={
+                            "rounded-md px-3 py-2 text-base font-medium text-neutral-off-black hover:bg-gray-700 hover:text-white"
+                          }
+                        >
+                          {item.name}
+                        </Link>
                         // <Link href={item.href} legacyBehavior>
                         //   <a
                         //     key={item.name}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Disclosure } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import bpcsLogo from "../../public/images/bpcs-logo.png";
 
@@ -79,7 +79,7 @@ export const Navbar = () => {
             <Disclosure.Panel className="sm:hidden">
               <div className="space-y-1 px-2 pt-2 pb-3">
                 {navigation.map((item) => (
-                  <Link href={item.href} legacyBehavior>
+                  <Link href={item.href} key={item.name} legacyBehavior>
                     <>
                       <Disclosure.Button
                         key={item.name}

@@ -6,7 +6,7 @@ import Image from "next/image";
 import bpcsLogo from "../../public/images/bpcs-logo.png";
 
 const navigation = [
-  { name: "Meetings", href: "/meetings", current: false },
+  { name: "Meetings", href: "/", current: false },
   { name: "City Council", href: "/city-council", current: false },
   { name: "Roadmap", href: "/roadmap", current: false },
   { name: "About Us", href: "/about-us", current: false },

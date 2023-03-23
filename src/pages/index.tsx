@@ -1,8 +1,19 @@
 import { type NextPage } from "next";
+import React from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { prisma } from "../server/db"
+import type { GetServerSideProps } from "next";
 
-const Home: NextPage = () => {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const allMeetings = await prisma.meetings.findMany({})
+  return {
+    props: { allMeetings },
+  };
+};
+
+const Home: NextPage = ( {allMeetings} ) => {
+  // console.log(allMeetings)
   return (
     <>
       <Head>
@@ -11,8 +22,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Link href={"/"} className="text-3xl">Meetings</Link>
+      <div>
+        {allMeetings.map((meetings) => (
+          <div key={meetings.id}>
+            <h1>{meetings.meetingTime}</h1>
+          </div>
+        ))}
+      </div>
     </>
   );
 };
+
+
 
 export default Home;

@@ -1,17 +1,23 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model meetings {
+  id              Int     @id @default(autoincrement())
+  meetingID       Int
+  meetingLink     String? @default("") @db.VarChar(200)
+  meetingTime     String? @default("") @db.VarChar(200)
+  meetingType     String? @default("") @db.VarChar(200)
+  meetingStatus   String? @default("") @db.VarChar(200)
+  boardType       String? @default("") @db.VarChar(200)
+  agendaURL       String? @default("") @db.VarChar(200)
+  agendaPacketURL String? @default("") @db.VarChar(200)
+  summaryURL      String? @default("") @db.VarChar(200)
+  minutesURL      String? @default("") @db.VarChar(200)
 }

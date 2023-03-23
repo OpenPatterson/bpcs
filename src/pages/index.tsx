@@ -1,9 +1,16 @@
-import { type NextPage } from "next";
+import { NextPage } from "next";
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { prisma } from "../server/db"
 import type { GetServerSideProps } from "next";
+
+type HomeProps = {
+  allMeetings: {
+    id: number;
+    meetingTime: string;
+  }[];
+};
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const allMeetings = await prisma.meetings.findMany({})
@@ -12,8 +19,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-const Home: NextPage = ( {allMeetings} ) => {
-  // console.log(allMeetings)
+const Home: NextPage<HomeProps> = ({ allMeetings }) => {
   return (
     <>
       <Head>
@@ -32,7 +38,5 @@ const Home: NextPage = ( {allMeetings} ) => {
     </>
   );
 };
-
-
 
 export default Home;

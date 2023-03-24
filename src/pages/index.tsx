@@ -4,6 +4,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { prisma } from "../server/db"
 import type { GetServerSideProps } from "next";
+import { meetings } from "@prisma/client";
+
 
 type HomeProps = {
   allMeetings: {
@@ -13,7 +15,8 @@ type HomeProps = {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const allMeetings = await prisma.meetings.findMany({})
+  // const allMeetings = await prisma.meetings.findMany({})
+  const allMeetings = await prisma.$queryRaw<meetings[]>`SELECT m.* FROM (SELECT meetingID, max(id) as id FROM meetings GROUP BY meetingID) AS mx JOIN meetings m ON m.meetingID = mx.meetingID AND mx.id = m.id ORDER BY meetingID;`
   return {
     props: { allMeetings },
   };

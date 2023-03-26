@@ -15,8 +15,12 @@ type HomeProps = {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  // const allMeetings = await prisma.meetings.findMany({})
   const allMeetings = await prisma.$queryRaw<meetings[]>`SELECT m.* FROM (SELECT meetingID, max(id) as id FROM meetings GROUP BY meetingID) AS mx JOIN meetings m ON m.meetingID = mx.meetingID AND mx.id = m.id ORDER BY meetingID;`
+  allMeetings.forEach((meetings) => {
+    if (meetings.meetingTime != null) {
+      meetings.meetingTime = meetings.meetingTime.toString(); // convert date to ISO string
+    }
+  });
   return {
     props: { allMeetings },
   };

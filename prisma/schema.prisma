@@ -9,15 +9,15 @@ datasource db {
 }
 
 model meetings {
-  id              Int     @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   meetingID       Int
-  meetingLink     String? @default("") @db.VarChar(200)
-  meetingTime     String? @default("") @db.VarChar(200)
-  meetingType     String? @default("") @db.VarChar(200)
-  meetingStatus   String? @default("") @db.VarChar(200)
-  boardType       String? @default("") @db.VarChar(200)
-  agendaURL       String? @default("") @db.VarChar(200)
-  agendaPacketURL String? @default("") @db.VarChar(200)
-  summaryURL      String? @default("") @db.VarChar(200)
-  minutesURL      String? @default("") @db.VarChar(200)
+  meetingLink     String?   @default("") @db.VarChar(200)
+  meetingTime     DateTime? @db.DateTime(0)
+  meetingType     String?   @default("") @db.VarChar(200)
+  meetingStatus   String?   @default("") @db.VarChar(200)
+  boardType       String?   @default("") @db.VarChar(200)
+  agendaURL       String?   @default("") @db.VarChar(200)
+  agendaPacketURL String?   @default("") @db.VarChar(200)
+  summaryURL      String?   @default("") @db.VarChar(200)
+  minutesURL      String?   @default("") @db.VarChar(200)
 }

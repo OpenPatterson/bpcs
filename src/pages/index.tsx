@@ -8,25 +8,32 @@ import { meetings } from "@prisma/client";
 
 
 type HomeProps = {
-  allMeetings: {
+  queriedMeetings: {
     id: number;
     meetingTime: string;
   }[];
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const homeProps: HomeProps = {
+    queriedMeetings: []
+  };
+
   const allMeetings = await prisma.$queryRaw<meetings[]>`SELECT m.* FROM (SELECT meetingID, max(id) as id FROM meetings GROUP BY meetingID) AS mx JOIN meetings m ON m.meetingID = mx.meetingID AND mx.id = m.id ORDER BY meetingID;`
   allMeetings.forEach((meetings) => {
     if (meetings.meetingTime != null) {
-      meetings.meetingTime = meetings.meetingTime.toString(); // convert date to ISO string
+      homeProps.queriedMeetings.push({
+        id: meetings.id,
+        meetingTime: meetings.meetingTime.toString()
+      })
     }
   });
   return {
-    props: { allMeetings },
+    props:  homeProps ,
   };
 };
 
-const Home: NextPage<HomeProps> = ({ allMeetings }) => {
+const Home: NextPage<HomeProps> = ({ queriedMeetings }) => {
   return (
     <>
       <Head>
@@ -36,7 +43,7 @@ const Home: NextPage<HomeProps> = ({ allMeetings }) => {
       </Head>
       <Link href={"/"} className="text-3xl">Meetings</Link>
       <div>
-        {allMeetings.map((meetings) => (
+        {queriedMeetings.map((meetings) => (
           <div key={meetings.id}>
             <h1>{meetings.meetingTime}</h1>
           </div>

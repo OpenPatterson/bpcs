@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const allMeetings = await prisma.$queryRaw<
     meetings[]
-  >`SELECT m.* FROM (SELECT meetingID, max(id) as id FROM meetings GROUP BY meetingID) AS mx JOIN meetings m ON m.meetingID = mx.meetingID AND mx.id = m.id ORDER BY meetingID;`;
+  >`SELECT m.* FROM (SELECT meetingID, max(id) as id FROM meetings GROUP BY meetingID) AS mx JOIN meetings m ON m.meetingID = mx.meetingID AND mx.id = m.id WHERE meetingTime <= NOW() ORDER BY meetingTime DESC LIMIT 10;`;
   const upcomingMeeting = await prisma.$queryRaw<
     meetings[]
   >`SELECT * FROM meetings WHERE meetingTime >= NOW() ORDER BY meetingTime ASC LIMIT 1;`;
@@ -67,9 +67,10 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <h2 className="text-3xl">Upcoming Meeting:</h2>
+        <h1 className="text-7xl font-bold text-center">Upcoming Meeting:</h1>
         <div>
-          <h1 className="font-bold">{queryUpcoming.meetingTime}</h1>
+          <h1 className="text-2xl text-center">City Council Meeting</h1>
+          <h1 className="text-2xl text-center">{queryUpcoming.meetingTime}</h1>
         </div>
       </div>
       <Link href={"/"} className="text-3xl">

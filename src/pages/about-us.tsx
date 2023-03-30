@@ -9,10 +9,15 @@ const AboutUs: NextPage = () => {
       <div className="content mx-auto flex w-2/3 flex-wrap items-start pt-10">
         <div className="item-body w-1/3 space-y-5">
           <div className="">
+            We built this website so that Patterson residents can more easily
+            find the agendas and schedules of the Patterson City Council
+            meetings. BPCS stands for the Better Patterson Council Site project.
+          </div>
+          <div className="">
             Looking to make a difference in your local community? Look no
-            further than Open Patterson! We&apos;re a civic-tech organization made up
-            entirely of volunteers, and we&apos;re focused on using technology to
-            improve the world around us.
+            further than Open Patterson! We&apos;re a civic-tech organization
+            made up entirely of volunteers, and we&apos;re focused on using
+            technology to improve the world around us.
           </div>
           <div className="">
             Whether you&apos;re an experienced software engineer or a passionate
@@ -22,13 +27,14 @@ const AboutUs: NextPage = () => {
           </div>
           <div className="">
             Open Patterson officially started in 2022, but our real projects
-            began in 2023. We&apos;re always looking for new volunteers to join us
-            and help us make an even bigger difference.
+            began in 2023. We&apos;re always looking for new volunteers to join
+            us and help us make an even bigger difference.
           </div>
           <div className="">
-            So if you&apos;re interested in volunteering with us or have an idea for
-            a project, don&apos;t hesitate to reach out. We&apos;d love to hear from you
-            and work together to create positive change in our community.
+            So if you&apos;re interested in volunteering with us or have an idea
+            for a project, don&apos;t hesitate to reach out. We&apos;d love to
+            hear from you and work together to create positive change in our
+            community.
           </div>
         </div>
         <div className="float-right w-2/3">

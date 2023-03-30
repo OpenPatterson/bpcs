@@ -8,7 +8,7 @@ import bpcsLogo from "../../public/images/bpcs-logo.png";
 const navigation = [
   { name: "Meetings", href: "/", current: false },
   { name: "City Council", href: "/city-council", current: false },
-  { name: "Roadmap", href: "/roadmap", current: false },
+  { name: "Roadmap", href: "https://github.com/orgs/OpenPatterson/projects/3/", current: false },
   { name: "About Us", href: "/about-us", current: false },
 ];
 
@@ -49,6 +49,7 @@ export const Navbar = () => {
                         <Link
                           href={item.href}
                           key={item.name}
+                          target={item.name=="Roadmap" ? "_blank" : ""}
                           className={
                             "rounded-md px-3 py-2 text-base font-medium text-neutral-off-black hover:bg-gray-700 hover:text-white"
                           }

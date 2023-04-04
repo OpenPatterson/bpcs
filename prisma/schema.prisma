@@ -21,3 +21,9 @@ model meetings {
   summaryURL      String?   @default("") @db.VarChar(200)
   minutesURL      String?   @default("") @db.VarChar(200)
 }
+
+model agendas {
+  id        Int     @id @default(autoincrement())
+  meetingID Int
+  agendaMD  String? @db.MediumText
+}

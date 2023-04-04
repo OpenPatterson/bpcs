@@ -2,7 +2,7 @@ import { getAllMeetingIds, getMeetingData } from "~/lib/meetings";
 
 interface MeetingData {
   meetingID: string;
-  placeholder: string;
+  contentHtml: string;
 }
 
 export default function Meeting({ meetingData }: { meetingData: MeetingData }) {
@@ -10,7 +10,10 @@ export default function Meeting({ meetingData }: { meetingData: MeetingData }) {
     <>
       {meetingData.meetingID}
       <br />
-      {meetingData.placeholder}
+      <article className="prose lg:prose-xl w-2/3 mx-auto">
+        <div dangerouslySetInnerHTML={{ __html: meetingData.contentHtml }} />
+      </article>
+      
     </>
   );
 }
@@ -23,8 +26,8 @@ export async function getStaticPaths() {
   };
 }
 
-export function getStaticProps({ params }: { params: { meetingID: string } }) {  
-  const meetingData = getMeetingData(params.meetingID);
+export async function getStaticProps({ params }: { params: { meetingID: string } }) {  
+  const meetingData = await getMeetingData(params.meetingID);
   return {
     props: {
       meetingData,

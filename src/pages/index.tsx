@@ -34,14 +34,14 @@ export const getStaticProps: GetStaticProps = async () => {
   allMeetings.forEach((meeting) => {
     if (meeting.meetingTime != null) {
       queriedMeetings.push({
-        id: meeting.id,
+        id: meeting.meetingID,
         meetingTime: meeting.meetingTime.toString(),
       });
     }
   });
 
   if (upcomingMeeting[0]) {
-    queryUpcoming.id = upcomingMeeting[0].id;
+    queryUpcoming.id = upcomingMeeting[0].meetingID;
     if (upcomingMeeting[0].meetingTime != null) {
       queryUpcoming.meetingTime = upcomingMeeting[0].meetingTime.toString();
     }
@@ -67,10 +67,18 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <h1 className="text-7xl font-bold text-center">Upcoming Meeting:</h1>
+        <h1 className="text-center text-7xl font-bold">Upcoming Meeting:</h1>
         <div>
-          <h1 className="text-2xl text-center">City Council Meeting</h1>
-          <h1 className="text-2xl text-center">{queryUpcoming.meetingTime}</h1>
+          <Link
+            className="flex-column"
+            href={`/meetings/${queryUpcoming.id}`}
+            key={queryUpcoming.id}
+          >
+            <h1 className="text-center text-2xl">City Council Meeting</h1>
+            <h1 className="text-center text-2xl">
+              {queryUpcoming.meetingTime}
+            </h1>
+          </Link>
         </div>
       </div>
       <Link href={"/"} className="text-3xl">
@@ -79,7 +87,13 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
       <div>
         {queriedMeetings.map((meeting) => (
           <div key={meeting.id}>
-            <h1>{meeting.meetingTime}</h1>
+            <Link
+              className="flex"
+              href={`/meetings/${meeting.id}`}
+              key={meeting.id}
+            >
+              {meeting.meetingTime}
+            </Link>
           </div>
         ))}
       </div>

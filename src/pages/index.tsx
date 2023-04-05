@@ -3,7 +3,7 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { prisma } from "../server/db";
-import type { GetServerSideProps } from "next";
+import type { GetStaticProps } from "next";
 import { meetings } from "@prisma/client";
 
 type HomeProps = {
@@ -17,7 +17,7 @@ type HomeProps = {
   };
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const queriedMeetings: { id: number; meetingTime: string }[] = [];
   const queryUpcoming: { id: number; meetingTime: string } = {
     id: 1,

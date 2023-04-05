@@ -18,6 +18,13 @@ type HomeProps = {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+  const dateOptions: Record<string, string | undefined> = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+  };
   const queriedMeetings: { id: number; meetingTime: string }[] = [];
   const queryUpcoming: { id: number; meetingTime: string } = {
     id: 1,
@@ -33,9 +40,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
   allMeetings.forEach((meeting) => {
     if (meeting.meetingTime != null) {
+      const meetingTimeFormatted = meeting.meetingTime.toLocaleDateString("en-US", dateOptions)
       queriedMeetings.push({
         id: meeting.meetingID,
-        meetingTime: meeting.meetingTime.toString(),
+        meetingTime: meetingTimeFormatted,
       });
     }
   });
@@ -43,7 +51,8 @@ export const getStaticProps: GetStaticProps = async () => {
   if (upcomingMeeting[0]) {
     queryUpcoming.id = upcomingMeeting[0].meetingID;
     if (upcomingMeeting[0].meetingTime != null) {
-      queryUpcoming.meetingTime = upcomingMeeting[0].meetingTime.toString();
+      const meetingTimeFormatted = upcomingMeeting[0].meetingTime.toLocaleDateString("en-US", dateOptions)
+      queryUpcoming.meetingTime = meetingTimeFormatted;
     }
   }
 

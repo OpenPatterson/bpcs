@@ -10,25 +10,56 @@ type HomeProps = {
   queriedMeetings: {
     id: number;
     meetingTime: string;
+    meetingType: string;
+    agendaURL: string;
+    agendaPacketURL: string;
+    summaryURL: string;
+    minutesURL: string;
   }[];
   queryUpcoming: {
     id: number;
     meetingTime: string;
+    meetingType: string;
+    agendaURL: string;
+    agendaPacketURL: string;
+    summaryURL: string;
+    minutesURL: string;
   };
 };
 
 export const getStaticProps: GetStaticProps = async () => {
   const dateOptions: Record<string, string | undefined> = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric'
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
   };
-  const queriedMeetings: { id: number; meetingTime: string }[] = [];
-  const queryUpcoming: { id: number; meetingTime: string } = {
+  const queriedMeetings: {
+    id: number;
+    meetingTime: string;
+    meetingType: string;
+    agendaURL: string;
+    agendaPacketURL: string;
+    summaryURL: string;
+    minutesURL: string;
+  }[] = [];
+  const queryUpcoming: {
+    id: number;
+    meetingTime: string;
+    meetingType: string;
+    agendaURL: string;
+    agendaPacketURL: string;
+    summaryURL: string;
+    minutesURL: string;
+  } = {
     id: 1,
     meetingTime: "",
+    meetingType: "",
+    agendaURL: "",
+    agendaPacketURL: "",
+    summaryURL: "",
+    minutesURL: "",
   };
 
   const allMeetings = await prisma.$queryRaw<
@@ -40,10 +71,18 @@ export const getStaticProps: GetStaticProps = async () => {
 
   allMeetings.forEach((meeting) => {
     if (meeting.meetingTime != null) {
-      const meetingTimeFormatted = meeting.meetingTime.toLocaleDateString("en-US", dateOptions)
+      const meetingTimeFormatted = meeting.meetingTime.toLocaleDateString(
+        "en-US",
+        dateOptions
+      );
       queriedMeetings.push({
         id: meeting.meetingID,
         meetingTime: meetingTimeFormatted,
+        meetingType: meeting.meetingType,
+        agendaURL: meeting.agendaURL,
+        agendaPacketURL: meeting.agendaPacketURL,
+        summaryURL: meeting.summaryURL,
+        minutesURL: meeting.minutesURL,
       });
     }
   });
@@ -51,8 +90,14 @@ export const getStaticProps: GetStaticProps = async () => {
   if (upcomingMeeting[0]) {
     queryUpcoming.id = upcomingMeeting[0].meetingID;
     if (upcomingMeeting[0].meetingTime != null) {
-      const meetingTimeFormatted = upcomingMeeting[0].meetingTime.toLocaleDateString("en-US", dateOptions)
+      const meetingTimeFormatted =
+        upcomingMeeting[0].meetingTime.toLocaleDateString("en-US", dateOptions);
       queryUpcoming.meetingTime = meetingTimeFormatted;
+      queryUpcoming.meetingType = upcomingMeeting[0].meetingType;
+      queryUpcoming.agendaURL = upcomingMeeting[0].agendaURL;
+      queryUpcoming.agendaPacketURL = upcomingMeeting[0].agendaPacketURL;
+      queryUpcoming.summaryURL = upcomingMeeting[0].summaryURL;
+      queryUpcoming.minutesURL = upcomingMeeting[0].minutesURL;
     }
   }
 
@@ -75,36 +120,99 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <h1 className="text-center text-7xl font-bold">Upcoming Meeting:</h1>
-        <div>
-          <Link
-            className="flex-column"
-            href={`/meetings/${queryUpcoming.id}`}
-            key={queryUpcoming.id}
-          >
-            <h1 className="text-center text-2xl">City Council Meeting</h1>
-            <h1 className="text-center text-2xl">
-              {queryUpcoming.meetingTime}
-            </h1>
-          </Link>
-        </div>
-      </div>
-      <Link href={"/"} className="text-3xl">
-        Meetings
-      </Link>
-      <div>
-        {queriedMeetings.map((meeting) => (
-          <div key={meeting.id}>
+      <div className="">
+        <div className="my-5 text-center">
+          <h1 className="my-5 text-7xl font-bold">Next Meeting</h1>
+          <div>
             <Link
-              className="flex"
-              href={`/meetings/${meeting.id}`}
-              key={meeting.id}
+              className="flex-column"
+              href={`/meetings/${queryUpcoming.id}`}
+              key={queryUpcoming.id}
             >
-              {meeting.meetingTime}
+              <h1 className="text-2xl">{queryUpcoming.meetingType}</h1>
+              <h1 className="text-2xl">{queryUpcoming.meetingTime}</h1>
             </Link>
           </div>
-        ))}
+        </div>
+        <div className="max-w-full bg-primary-light">
+          <Link href={"/meetings"} className="">
+            <div className="mx-auto w-2/3 text-3xl font-bold">
+              Previous Meetings
+            </div>
+          </Link>
+          <div className="mx-auto w-2/3 text-sm">Last Updated:</div>
+        </div>
+        <div>
+          {queriedMeetings.map((meeting, index) => (
+            <div
+              key={meeting.id}
+              className={index % 2 == 0 ? "" : "bg-primary-light"}
+            >
+              <div className="mx-auto flex w-2/3 flex-row items-center justify-between">
+                <Link
+                  className=""
+                  href={`/meetings/${meeting.id}`}
+                  key={meeting.id}
+                >
+                  <div className="flex flex-row items-center">
+                    <div className="flex flex-col">
+                      <div className="">{meeting.meetingType}</div>
+                      <div className="">{meeting.meetingTime}</div>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      className="h-6 w-6 hover:hidden"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="h-6 w-6 hover:hidden"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </Link>
+                <div className="flex flex-row space-x-5">
+                  {meeting.agendaURL == "" ? null : (
+                    <Link href={meeting.agendaURL} className="flex">
+                      Agenda
+                    </Link>
+                  )}
+                  {meeting.agendaPacketURL == "" ? null : (
+                    <Link href={meeting.agendaPacketURL} className="flex">
+                      Agenda Packet
+                    </Link>
+                  )}
+                  {meeting.minutesURL == "" ? null : (
+                    <Link href={meeting.minutesURL} className="flex">
+                      Minutes
+                    </Link>
+                  )}
+                  {meeting.summaryURL == "" ? null : (
+                    <Link href={meeting.summaryURL} className="flex">
+                      Summary
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

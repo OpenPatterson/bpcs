@@ -70,7 +70,14 @@ export const getStaticProps: GetStaticProps = async () => {
   >`SELECT * FROM meetings WHERE meetingTime >= NOW() ORDER BY meetingTime ASC LIMIT 1;`;
 
   allMeetings.forEach((meeting) => {
-    if (meeting.meetingTime != null) {
+    if (
+      meeting.meetingTime != null &&
+      meeting.meetingType != null &&
+      meeting.agendaURL != null &&
+      meeting.agendaPacketURL != null &&
+      meeting.summaryURL != null &&
+      meeting.minutesURL != null
+    ) {
       const meetingTimeFormatted = meeting.meetingTime.toLocaleDateString(
         "en-US",
         dateOptions
@@ -89,7 +96,15 @@ export const getStaticProps: GetStaticProps = async () => {
 
   if (upcomingMeeting[0]) {
     queryUpcoming.id = upcomingMeeting[0].meetingID;
-    if (upcomingMeeting[0].meetingTime != null) {
+    if (
+      upcomingMeeting[0].meetingTime != null &&
+      upcomingMeeting[0].meetingType != null &&
+      upcomingMeeting[0].meetingType != null &&
+      upcomingMeeting[0].agendaURL != null &&
+      upcomingMeeting[0].agendaPacketURL != null &&
+      upcomingMeeting[0].summaryURL != null &&
+      upcomingMeeting[0].minutesURL != null
+    ) {
       const meetingTimeFormatted =
         upcomingMeeting[0].meetingTime.toLocaleDateString("en-US", dateOptions);
       queryUpcoming.meetingTime = meetingTimeFormatted;
@@ -154,12 +169,12 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                   href={`/meetings/${meeting.id}`}
                   key={meeting.id}
                 >
-                  <div className="flex flex-row items-center">
+                  <div className="flex flex-row items-center text-left">
                     <div className="flex flex-col">
                       <div className="">{meeting.meetingType}</div>
                       <div className="">{meeting.meetingTime}</div>
                     </div>
-                    <div className="group flex relative">
+                    <div className="group relative flex">
                       {/* Solid */}
                       <div className="hidden group-hover:block">
                         <svg
@@ -197,22 +212,50 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                 </Link>
                 <div className="flex flex-row space-x-5">
                   {meeting.agendaURL == "" ? null : (
-                    <Link href={meeting.agendaURL} className="flex">
+                    <Link
+                      href={
+                        "https://pattersonca.iqm2.com/Citizens/" +
+                        meeting.agendaURL
+                      }
+                      className="flex"
+                      target="_blank"
+                    >
                       Agenda
                     </Link>
                   )}
                   {meeting.agendaPacketURL == "" ? null : (
-                    <Link href={meeting.agendaPacketURL} className="flex">
+                    <Link
+                      href={
+                        "https://pattersonca.iqm2.com/Citizens/" +
+                        meeting.agendaPacketURL
+                      }
+                      className="flex"
+                      target="_blank"
+                    >
                       Agenda Packet
                     </Link>
                   )}
                   {meeting.minutesURL == "" ? null : (
-                    <Link href={meeting.minutesURL} className="flex">
+                    <Link
+                      href={
+                        "https://pattersonca.iqm2.com/Citizens/" +
+                        meeting.minutesURL
+                      }
+                      className="flex"
+                      target="_blank"
+                    >
                       Minutes
                     </Link>
                   )}
                   {meeting.summaryURL == "" ? null : (
-                    <Link href={meeting.summaryURL} className="flex">
+                    <Link
+                      href={
+                        "https://pattersonca.iqm2.com/Citizens/" +
+                        meeting.summaryURL
+                      }
+                      className="flex"
+                      target="_blank"
+                    >
                       Summary
                     </Link>
                   )}

@@ -136,6 +136,7 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="">
+        {/* Next Meeting Section */}
         <div className="my-5 text-center">
           <h1 className="my-5 font-bold text-5xl md:text-7xl 2xl:text-9xl">Next Meeting</h1>
           <div>
@@ -186,13 +187,13 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
           </div>
         </div>
         {/* Previous Meetings Title */}
-        <div className="max-w-full bg-primary-light">
+        <div className="max-w-full py-5 bg-primary-light">
           <Link href={"/meetings"} className="">
-            <div className="mx-auto w-3/4 text-3xl font-bold">
+            <div className="mx-auto w-3/4 text-3xl font-bold 2xl:text-5xl 2xl:w-2/3">
               Previous Meetings
             </div>
           </Link>
-          <div className="mx-auto w-3/4 text-sm">Last Updated:</div>
+          <div className="mx-auto w-3/4 text-sm 2xl:text-xl 2xl:w-2/3">Last Updated:</div>
         </div>
         {/* 10 Previous Meetings */}
         <div className="">
@@ -201,14 +202,14 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
               key={meeting.id}
               className={index % 2 == 0 ? "" : "bg-primary-light"}
             >
-              <div className="w-2/3 mx-auto md:mx-auto md:items-center md:justify-between md:w-3/4 md:flex md:flex-row">
+              <div className="mx-auto px-5 py-5 md:px-0 md:mx-auto md:items-center md:justify-between md:w-3/4 md:flex md:flex-row 2xl:text-2xl 2xl:w-2/3">
                 <Link
                   className=""
                   href={`/meetings/${meeting.id}`}
                   key={meeting.id}
                 >
-                  <div className="flex items-center text-left">
-                    <div className="">
+                  <div className="flex items-center text-center md:text-left">
+                    <div className="w-full">
                       <div className="hover:underline">
                         <div className="">{meeting.meetingType}</div>
                         <div className="">{meeting.meetingTime}</div>
@@ -250,12 +251,12 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                     </div>
                   </div>
                 </Link>
-                <div className="space-x-3">
+                {/* Agenda, Agenda Packet, Minutes, and Summary URLs */}
+                <div className="block text-center space-x-3 pt-3 md:py-0 2xl:space-x-10">
                   {meeting.agendaURL == "" ? null : (
                     <Link
                       href={
-                        "https://pattersonca.iqm2.com/Citizens/" +
-                        meeting.agendaURL
+                        `https://pattersonca.iqm2.com/Citizens/${meeting.agendaURL}`
                       }
                       className="hover:underline"
                       target="_blank"
@@ -266,8 +267,7 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                   {meeting.agendaPacketURL == "" ? null : (
                     <Link
                       href={
-                        "https://pattersonca.iqm2.com/Citizens/" +
-                        meeting.agendaPacketURL
+                        `https://pattersonca.iqm2.com/Citizens/${meeting.agendaPacketURL}`
                       }
                       className="hover:underline"
                       target="_blank"
@@ -278,8 +278,7 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                   {meeting.minutesURL == "" ? null : (
                     <Link
                       href={
-                        "https://pattersonca.iqm2.com/Citizens/" +
-                        meeting.minutesURL
+                        `https://pattersonca.iqm2.com/Citizens/${meeting.minutesURL}`
                       }
                       className="hover:underline"
                       target="_blank"
@@ -290,8 +289,7 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                   {meeting.summaryURL == "" ? null : (
                     <Link
                       href={
-                        "https://pattersonca.iqm2.com/Citizens/" +
-                        meeting.summaryURL
+                        `https://pattersonca.iqm2.com/Citizens/${meeting.summaryURL}`
                       }
                       className="hover:underline"
                       target="_blank"

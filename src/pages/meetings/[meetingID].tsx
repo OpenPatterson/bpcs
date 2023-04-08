@@ -31,28 +31,40 @@ export default function Meeting({ meetingData }: { meetingData: MeetingData }) {
           <Link href={meetingData.meetingLink}>Original Page</Link>
         </div>
         <div className="hover:underline">
-          <Link href={`https://pattersonca.iqm2.com/Citizens/${meetingData.agendaURL}`}>
+          <Link
+            href={`https://pattersonca.iqm2.com/Citizens/${meetingData.agendaURL}`}
+          >
             Agenda
           </Link>
         </div>
         <div className="hover:underline">
-          <Link href={`https://pattersonca.iqm2.com/Citizens/${meetingData.agendaPacketURL}`}>
+          <Link
+            href={`https://pattersonca.iqm2.com/Citizens/${meetingData.agendaPacketURL}`}
+          >
             Agenda Packet
           </Link>
         </div>
         <div className="hover:underline">
-          <Link href={`https://pattersonca.iqm2.com/Citizens/${meetingData.summaryURL}`}>
+          <Link
+            href={`https://pattersonca.iqm2.com/Citizens/${meetingData.summaryURL}`}
+          >
             Summary
           </Link>
         </div>
         <div className="hover:underline">
-          <Link href={`https://pattersonca.iqm2.com/Citizens/${meetingData.minutesURL}`}>
+          <Link
+            href={`https://pattersonca.iqm2.com/Citizens/${meetingData.minutesURL}`}
+          >
             Minutes
           </Link>
         </div>
       </div>
       <article className="prose mx-auto px-5 lg:prose-xl md:w-2/3 md:px-0">
-        <div dangerouslySetInnerHTML={{ __html: meetingData.contentHtml }} />
+        {meetingData.contentHtml == "" ? (
+          <div className="text-4xl font-bold text-center align-center py-10 xl:text-7xl">Agenda Not Set Yet</div>
+        ) : (
+          <div dangerouslySetInnerHTML={{ __html: meetingData.contentHtml }} />
+        )}
       </article>
     </>
   );

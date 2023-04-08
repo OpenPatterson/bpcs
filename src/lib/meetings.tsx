@@ -26,6 +26,7 @@ export async function getMeetingData(meetingID: string) {
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
+    timeZone: "America/Los_Angeles",
   };
   let meetingTimeFormatted = "Missing Date";
   const meetingIDInt = parseInt(meetingID);

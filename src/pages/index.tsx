@@ -34,6 +34,7 @@ export const getStaticProps: GetStaticProps = async () => {
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
+    timeZone: "America/Los_Angeles",
   };
   const queriedMeetings: {
     id: number;

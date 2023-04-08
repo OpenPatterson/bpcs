@@ -24,6 +24,7 @@ type HomeProps = {
     agendaPacketURL: string;
     summaryURL: string;
     minutesURL: string;
+    lastUpdated: string;
   };
 };
 
@@ -53,6 +54,7 @@ export const getStaticProps: GetStaticProps = async () => {
     agendaPacketURL: string;
     summaryURL: string;
     minutesURL: string;
+    lastUpdated: string;
   } = {
     id: 1,
     meetingTime: "",
@@ -61,6 +63,7 @@ export const getStaticProps: GetStaticProps = async () => {
     agendaPacketURL: "",
     summaryURL: "",
     minutesURL: "",
+    lastUpdated: "",
   };
 
   const allMeetings = await prisma.$queryRaw<
@@ -104,16 +107,20 @@ export const getStaticProps: GetStaticProps = async () => {
       upcomingMeeting[0].agendaURL != null &&
       upcomingMeeting[0].agendaPacketURL != null &&
       upcomingMeeting[0].summaryURL != null &&
-      upcomingMeeting[0].minutesURL != null
+      upcomingMeeting[0].minutesURL != null &&
+      upcomingMeeting[0].created_at != null
     ) {
       const meetingTimeFormatted =
         upcomingMeeting[0].meetingTime.toLocaleDateString("en-US", dateOptions);
+      const updatedTimeFormatted =
+        upcomingMeeting[0].created_at.toLocaleDateString("en-US", dateOptions);
       queryUpcoming.meetingTime = meetingTimeFormatted;
       queryUpcoming.meetingType = upcomingMeeting[0].meetingType;
       queryUpcoming.agendaURL = upcomingMeeting[0].agendaURL;
       queryUpcoming.agendaPacketURL = upcomingMeeting[0].agendaPacketURL;
       queryUpcoming.summaryURL = upcomingMeeting[0].summaryURL;
       queryUpcoming.minutesURL = upcomingMeeting[0].minutesURL;
+      queryUpcoming.lastUpdated = updatedTimeFormatted;
     }
   }
 
@@ -139,14 +146,16 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
       <div className="">
         {/* Next Meeting Section */}
         <div className="my-5 text-center">
-          <h1 className="my-5 font-bold text-5xl md:text-7xl 2xl:text-9xl">Next Meeting</h1>
+          <h1 className="my-5 text-5xl font-bold md:text-7xl 2xl:text-9xl">
+            Next Meeting
+          </h1>
           <div>
             <Link
               className="flex-column"
               href={`/meetings/${queryUpcoming.id}`}
               key={queryUpcoming.id}
             >
-              <div className="text-2xl hover:underline flex flex-col">
+              <div className="flex flex-col text-2xl hover:underline">
                 <div className="">{queryUpcoming.meetingType}</div>
                 <div className="">{queryUpcoming.meetingTime}</div>
               </div>
@@ -157,7 +166,7 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="h-10 w-10"
+                    className="h-10 w-10 2xl:h-20 2xl:w-20"
                   >
                     <path
                       fill-rule="evenodd"
@@ -188,13 +197,15 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
           </div>
         </div>
         {/* Previous Meetings Title */}
-        <div className="max-w-full py-5 bg-primary-light">
+        <div className="max-w-full bg-primary-light py-5">
           <Link href={"/meetings"} className="">
-            <div className="mx-auto w-3/4 text-3xl font-bold 2xl:text-5xl 2xl:w-2/3">
+            <div className="mx-auto w-3/4 text-3xl font-bold 2xl:w-2/3 2xl:text-5xl">
               Previous Meetings
             </div>
           </Link>
-          <div className="mx-auto w-3/4 text-sm 2xl:text-xl 2xl:w-2/3">Last Updated:</div>
+          <div className="mx-auto w-3/4 text-sm 2xl:w-2/3 2xl:text-xl">
+            Last Updated: {queryUpcoming.lastUpdated}
+          </div>
         </div>
         {/* 10 Previous Meetings */}
         <div className="">
@@ -203,7 +214,7 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
               key={meeting.id}
               className={index % 2 == 0 ? "" : "bg-primary-light"}
             >
-              <div className="mx-auto px-5 py-5 md:px-0 md:mx-auto md:items-center md:justify-between md:w-3/4 md:flex md:flex-row 2xl:text-2xl 2xl:w-2/3">
+              <div className="mx-auto px-5 py-5 md:mx-auto md:flex md:w-3/4 md:flex-row md:items-center md:justify-between md:px-0 2xl:w-2/3 2xl:text-2xl">
                 <Link
                   className=""
                   href={`/meetings/${meeting.id}`}
@@ -253,12 +264,10 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                   </div>
                 </Link>
                 {/* Agenda, Agenda Packet, Minutes, and Summary URLs */}
-                <div className="block text-center space-x-3 pt-3 md:py-0 2xl:space-x-10">
+                <div className="block space-x-3 pt-3 text-center md:py-0 2xl:space-x-10">
                   {meeting.agendaURL == "" ? null : (
                     <Link
-                      href={
-                        `https://pattersonca.iqm2.com/Citizens/${meeting.agendaURL}`
-                      }
+                      href={`https://pattersonca.iqm2.com/Citizens/${meeting.agendaURL}`}
                       className="hover:underline"
                       target="_blank"
                     >
@@ -267,9 +276,7 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                   )}
                   {meeting.agendaPacketURL == "" ? null : (
                     <Link
-                      href={
-                        `https://pattersonca.iqm2.com/Citizens/${meeting.agendaPacketURL}`
-                      }
+                      href={`https://pattersonca.iqm2.com/Citizens/${meeting.agendaPacketURL}`}
                       className="hover:underline"
                       target="_blank"
                     >
@@ -278,9 +285,7 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                   )}
                   {meeting.minutesURL == "" ? null : (
                     <Link
-                      href={
-                        `https://pattersonca.iqm2.com/Citizens/${meeting.minutesURL}`
-                      }
+                      href={`https://pattersonca.iqm2.com/Citizens/${meeting.minutesURL}`}
                       className="hover:underline"
                       target="_blank"
                     >
@@ -289,9 +294,7 @@ const Home: NextPage<HomeProps> = ({ queriedMeetings, queryUpcoming }) => {
                   )}
                   {meeting.summaryURL == "" ? null : (
                     <Link
-                      href={
-                        `https://pattersonca.iqm2.com/Citizens/${meeting.summaryURL}`
-                      }
+                      href={`https://pattersonca.iqm2.com/Citizens/${meeting.summaryURL}`}
                       className="hover:underline"
                       target="_blank"
                     >

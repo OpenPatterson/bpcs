@@ -1,10 +1,10 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { prisma } from "../server/db";
 import type { GetStaticProps } from "next";
-import { meetings } from "@prisma/client";
+import type { meetings } from "@prisma/client";
 
 type HomeProps = {
   queriedMeetings: {

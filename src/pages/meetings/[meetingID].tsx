@@ -30,38 +30,56 @@ export default function Meeting({ meetingData }: { meetingData: MeetingData }) {
         <div className="hover:underline">
           <Link href={meetingData.meetingLink}>Original Page</Link>
         </div>
-        <div className="hover:underline">
-          <Link
-            href={`https://pattersonca.iqm2.com/Citizens/${meetingData.agendaURL}`}
-          >
-            Agenda
-          </Link>
-        </div>
-        <div className="hover:underline">
-          <Link
-            href={`https://pattersonca.iqm2.com/Citizens/${meetingData.agendaPacketURL}`}
-          >
-            Agenda Packet
-          </Link>
-        </div>
-        <div className="hover:underline">
-          <Link
-            href={`https://pattersonca.iqm2.com/Citizens/${meetingData.summaryURL}`}
-          >
-            Summary
-          </Link>
-        </div>
-        <div className="hover:underline">
-          <Link
-            href={`https://pattersonca.iqm2.com/Citizens/${meetingData.minutesURL}`}
-          >
-            Minutes
-          </Link>
-        </div>
+        {meetingData.agendaURL == "" ? (
+          ""
+        ) : (
+          <div className="hover:underline">
+            <Link
+              href={`https://pattersonca.iqm2.com/Citizens/${meetingData.agendaURL}`}
+            >
+              Agenda
+            </Link>
+          </div>
+        )}
+        {meetingData.agendaPacketURL == "" ? (
+          ""
+        ) : (
+          <div className="hover:underline">
+            <Link
+              href={`https://pattersonca.iqm2.com/Citizens/${meetingData.agendaPacketURL}`}
+            >
+              Agenda Packet
+            </Link>
+          </div>
+        )}
+        {meetingData.summaryURL == "" ? (
+          ""
+        ) : (
+          <div className="hover:underline">
+            <Link
+              href={`https://pattersonca.iqm2.com/Citizens/${meetingData.summaryURL}`}
+            >
+              Summary
+            </Link>
+          </div>
+        )}
+        {meetingData.minutesURL == "" ? (
+          ""
+        ) : (
+          <div className="hover:underline">
+            <Link
+              href={`https://pattersonca.iqm2.com/Citizens/${meetingData.minutesURL}`}
+            >
+              Minutes
+            </Link>
+          </div>
+        )}
       </div>
       <article className="prose mx-auto px-5 lg:prose-xl md:w-2/3 md:px-0">
         {meetingData.contentHtml == "" ? (
-          <div className="text-4xl font-bold text-center align-center py-10 xl:text-7xl">Agenda Not Set Yet</div>
+          <div className="align-center py-10 text-center text-4xl font-bold xl:text-7xl">
+            Agenda Not Set Yet
+          </div>
         ) : (
           <div dangerouslySetInnerHTML={{ __html: meetingData.contentHtml }} />
         )}

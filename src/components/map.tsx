@@ -4,8 +4,8 @@ import {
   Marker,
   Popup,
   Polygon,
-  PolygonProps,
-  MarkerProps,
+  type PolygonProps,
+  type MarkerProps,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -236,10 +236,11 @@ const Map = () => {
       scrollWheelZoom={false}
       style={{
         height: "600px",
-        width: "600px",
+        width: "100vw",
         marginLeft: "auto",
         marginRight: "auto",
-      }}
+      }
+    }
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

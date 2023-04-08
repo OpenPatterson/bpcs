@@ -16,6 +16,7 @@ type MeetingProps = {
     agendaPacketURL: string;
     summaryURL: string;
     minutesURL: string;
+    lastUpdated: string;
   }[];
 };
 
@@ -36,6 +37,7 @@ export const getStaticProps: GetStaticProps = async () => {
     agendaPacketURL: string;
     summaryURL: string;
     minutesURL: string;
+    lastUpdated: string;
   }[] = [];
 
   const allMeetings = await prisma.$queryRaw<
@@ -49,9 +51,14 @@ export const getStaticProps: GetStaticProps = async () => {
       meeting.agendaURL != null &&
       meeting.agendaPacketURL != null &&
       meeting.summaryURL != null &&
-      meeting.minutesURL != null
+      meeting.minutesURL != null &&
+      meeting.created_at != null
     ) {
       const meetingTimeFormatted = meeting.meetingTime.toLocaleDateString(
+        "en-US",
+        dateOptions
+      );
+      const updatedTimeFormatted = meeting.created_at.toLocaleDateString(
         "en-US",
         dateOptions
       );
@@ -63,6 +70,7 @@ export const getStaticProps: GetStaticProps = async () => {
         agendaPacketURL: meeting.agendaPacketURL,
         summaryURL: meeting.summaryURL,
         minutesURL: meeting.minutesURL,
+        lastUpdated: updatedTimeFormatted,
       });
     }
   });
@@ -98,20 +106,24 @@ const Meetings: NextPage<MeetingProps> = ({ queriedMeetings }) => {
           </div>
         </Link>
         <div className="mx-auto w-3/4 text-sm 2xl:w-2/3 2xl:text-xl">
-          Last Updated:
+          Last Updated:{" "}
+          {queriedMeetings[0] == null ? "N/A" : queriedMeetings[0].lastUpdated}
         </div>
       </div>
       {/* Paginated Posts */}
       {paginatedPosts.map(
-        (meeting: {
-          id: number;
-          meetingTime: string;
-          meetingType: string;
-          agendaURL: string;
-          agendaPacketURL: string;
-          summaryURL: string;
-          minutesURL: string;
-        }, index) => {
+        (
+          meeting: {
+            id: number;
+            meetingTime: string;
+            meetingType: string;
+            agendaURL: string;
+            agendaPacketURL: string;
+            summaryURL: string;
+            minutesURL: string;
+          },
+          index
+        ) => {
           return (
             <div
               key={meeting.id}

@@ -1,33 +1,34 @@
-# Create T3 App
+# BPCS
+BPCS is the Better Patterson Council Site project. It scrapes all meeting dates, agendas, and relevant links from
+the Patterson City Council site to host it on what we hope is a better experience for residents.  
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Any questions or feedback can be directed to Carlos at [carlos@openpatterson.org](mailto:carlos@openpatterson.org)
 
-## What's next? How do I make an app with this?
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+# Development  
+![Excalidraw diagram of BPCS Architecture.](public/BPCS_Architecture.png)
+The Lambda function code is hosted on the [bpcs-backend repo](https://github.com/OpenPatterson/bpcs-backend).
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Our site is hosted on Vercel for its great developer experience.  
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Our MySQL DB is hosted on Planetscale. Do note, there are some differences between vanilla MySQL and Planetscale's MySQL.
 
-## Learn More
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Updating Prisma Models from Planetscale DB
+If any changes were made to the schema in Planetscale, the easiest way to update Prisma's schema is to:
+1. `cd bpcs`
+2. `npx prisma db pull`
+3. `npx prisma generate`
+
+## The Stack
+We partially use the T3 stack. To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
 
 - [Documentation](https://create.t3.gg/)
 - [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app). 
 
-Next steps:
-  cd bpcs
-  npx prisma db push
-  npm run dev 
-  
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+From this we use:  
+- [Next.js](https://nextjs.org)  
+- [Prisma](https://prisma.io)  
+- [Tailwind CSS](https://tailwindcss.com)  

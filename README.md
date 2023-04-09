@@ -31,3 +31,13 @@ Next steps:
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+# BPCS
+BPCS is the Better Patterson Council Site project.  
+
+
+# Development  
+![public/BPCS_Architecture.png](Excalidraw diagram of BPCS Architecture.)
+
+
+## Updating Prisma Models from Planetscale DB

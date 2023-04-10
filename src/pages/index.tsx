@@ -73,7 +73,7 @@ export const getStaticProps: GetStaticProps = async () => {
   >`SELECT m.* FROM (SELECT meetingID, max(id) as id FROM meetings GROUP BY meetingID) AS mx JOIN meetings m ON m.meetingID = mx.meetingID AND mx.id = m.id WHERE meetingTime <= NOW() ORDER BY meetingTime DESC LIMIT 10;`;
   const upcomingMeeting = await prisma.$queryRaw<
     meetings[]
-  >`SELECT * FROM meetings WHERE meetingTime >= NOW() ORDER BY meetingTime ASC LIMIT 1;`;
+  >`SELECT m.* FROM (SELECT meetingID, max(id) as id FROM meetings GROUP BY meetingID) AS mx JOIN meetings m ON m.meetingID = mx.meetingID AND mx.id = m.id WHERE meetingTime >= NOW() ORDER BY meetingTime ASC LIMIT 1;`;
 
   allMeetings.forEach((meeting) => {
     if (

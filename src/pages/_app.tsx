@@ -1,5 +1,4 @@
 import { type AppType } from "next/dist/shared/lib/utils";
-import Script from "next/script";
 import { Navbar } from "~/components/navbar";
 import { Footer } from "~/components/footer";
 

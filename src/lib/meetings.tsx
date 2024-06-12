@@ -5,14 +5,14 @@ import html from "remark-html";
 export async function getAllMeetingIds() {
   const meetingIds = await prisma.meetings.findMany({
     select: {
-      meetingID: true,
+      meetingid: true,
     },
-    distinct: ["meetingID"],
+    distinct: ["meetingid"],
   });
 
   const paths = meetingIds.map((meeting) => ({
     params: {
-      meetingID: meeting.meetingID.toString(),
+      meetingID: meeting.meetingid.toString(),
     },
   }));
 
@@ -31,22 +31,22 @@ export async function getMeetingData(meetingID: string) {
   let meetingTimeFormatted = "Missing Date";
   const meetingIDInt = parseInt(meetingID);
   const agendaQuery = await prisma.agendas.findFirst({
-    where: { meetingID: meetingIDInt },
+    where: { meetingid: meetingIDInt },
     orderBy: { id: "desc" },
   });
   const meetingQuery = await prisma.meetings.findFirst({
-    where: { meetingID: meetingIDInt },
+    where: { meetingid: meetingIDInt },
     orderBy: { id: "desc" },
   });
-  const agendaMD = agendaQuery?.agendaMD || "";
-  const meetingTime = meetingQuery?.meetingTime || "";
-  const meetingType = meetingQuery?.meetingType || "";
-  const meetingLink = meetingQuery?.meetingLink || "";
-  const boardType = meetingQuery?.boardType || "";
-  const agendaURL = meetingQuery?.agendaURL || "";
-  const agendaPacketURL = meetingQuery?.agendaPacketURL || "";
-  const summaryURL = meetingQuery?.summaryURL || "";
-  const minutesURL = meetingQuery?.minutesURL || "";
+  const agendaMD = agendaQuery?.agendamd || "";
+  const meetingTime = meetingQuery?.meetingtime || "";
+  const meetingType = meetingQuery?.meetingtype || "";
+  const meetingLink = meetingQuery?.meetinglink || "";
+  const boardType = meetingQuery?.boardtype || "";
+  const agendaURL = meetingQuery?.agendaurl || "";
+  const agendaPacketURL = meetingQuery?.agendapacketurl || "";
+  const summaryURL = meetingQuery?.summaryurl || "";
+  const minutesURL = meetingQuery?.minutesurl || "";
 
   if (meetingTime != null && meetingTime != "") {
     meetingTimeFormatted = meetingTime.toLocaleDateString(

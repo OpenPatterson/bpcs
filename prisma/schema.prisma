@@ -3,30 +3,29 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model meetings {
   id              Int       @id @default(autoincrement())
-  meetingID       Int
-  meetingLink     String?   @default("") @db.VarChar(200)
-  meetingTime     DateTime? @db.DateTime(0)
-  meetingType     String?   @default("") @db.VarChar(200)
-  meetingStatus   String?   @default("") @db.VarChar(200)
-  boardType       String?   @default("") @db.VarChar(200)
-  agendaURL       String?   @default("") @db.VarChar(200)
-  agendaPacketURL String?   @default("") @db.VarChar(200)
-  summaryURL      String?   @default("") @db.VarChar(200)
-  minutesURL      String?   @default("") @db.VarChar(200)
-  created_at      DateTime? @default(now()) @db.Timestamp(0)
+  meetingid       Int
+  meetinglink     String?   @default("") @db.VarChar(200)
+  meetingtime     DateTime? @db.Timestamp(6)
+  meetingtype     String?   @default("") @db.VarChar(200)
+  meetingstatus   String?   @default("") @db.VarChar(200)
+  boardtype       String?   @default("") @db.VarChar(200)
+  agendaurl       String?   @default("") @db.VarChar(200)
+  agendapacketurl String?   @default("") @db.VarChar(200)
+  summaryurl      String?   @default("") @db.VarChar(200)
+  minutesurl      String?   @default("") @db.VarChar(200)
+  created_at      DateTime? @default(now()) @db.Timestamp(6)
 }
 
 model agendas {
   id         Int       @id @default(autoincrement())
-  meetingID  Int
-  agendaMD   String?   @db.MediumText
-  created_at DateTime? @default(now()) @db.Timestamp(0)
+  meetingid  Int
+  agendamd   String?
+  created_at DateTime? @default(now()) @db.Timestamp(6)
 }
-

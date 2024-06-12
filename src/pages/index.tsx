@@ -77,51 +77,51 @@ export const getStaticProps: GetStaticProps = async () => {
 
   allMeetings.forEach((meeting) => {
     if (
-      meeting.meetingTime != null &&
-      meeting.meetingType != null &&
-      meeting.agendaURL != null &&
-      meeting.agendaPacketURL != null &&
-      meeting.summaryURL != null &&
-      meeting.minutesURL != null
+      meeting.meetingtime != null &&
+      meeting.meetingtype != null &&
+      meeting.agendaurl != null &&
+      meeting.agendapacketurl != null &&
+      meeting.summaryurl != null &&
+      meeting.minutesurl != null
     ) {
-      const meetingTimeFormatted = meeting.meetingTime.toLocaleDateString(
+      const meetingTimeFormatted = meeting.meetingtime.toLocaleDateString(
         "en-US",
         dateOptions
       );
       queriedMeetings.push({
-        id: meeting.meetingID,
+        id: meeting.meetingid,
         meetingTime: meetingTimeFormatted,
-        meetingType: meeting.meetingType,
-        agendaURL: meeting.agendaURL,
-        agendaPacketURL: meeting.agendaPacketURL,
-        summaryURL: meeting.summaryURL,
-        minutesURL: meeting.minutesURL,
+        meetingType: meeting.meetingtype,
+        agendaURL: meeting.agendaurl,
+        agendaPacketURL: meeting.agendapacketurl,
+        summaryURL: meeting.summaryurl,
+        minutesURL: meeting.minutesurl,
       });
     }
   });
 
   if (upcomingMeeting[0]) {
-    queryUpcoming.id = upcomingMeeting[0].meetingID;
+    queryUpcoming.id = upcomingMeeting[0].meetingid;
     if (
-      upcomingMeeting[0].meetingTime != null &&
-      upcomingMeeting[0].meetingType != null &&
-      upcomingMeeting[0].meetingType != null &&
-      upcomingMeeting[0].agendaURL != null &&
-      upcomingMeeting[0].agendaPacketURL != null &&
-      upcomingMeeting[0].summaryURL != null &&
-      upcomingMeeting[0].minutesURL != null &&
+      upcomingMeeting[0].meetingtime != null &&
+      upcomingMeeting[0].meetingtype != null &&
+      upcomingMeeting[0].meetingtype != null &&
+      upcomingMeeting[0].agendaurl != null &&
+      upcomingMeeting[0].agendapacketurl != null &&
+      upcomingMeeting[0].summaryurl != null &&
+      upcomingMeeting[0].minutesurl != null &&
       upcomingMeeting[0].created_at != null
     ) {
       const meetingTimeFormatted =
-        upcomingMeeting[0].meetingTime.toLocaleDateString("en-US", dateOptions);
+        upcomingMeeting[0].meetingtime.toLocaleDateString("en-US", dateOptions);
       const updatedTimeFormatted =
         upcomingMeeting[0].created_at.toLocaleDateString("en-US", dateOptions);
       queryUpcoming.meetingTime = meetingTimeFormatted;
-      queryUpcoming.meetingType = upcomingMeeting[0].meetingType;
-      queryUpcoming.agendaURL = upcomingMeeting[0].agendaURL;
-      queryUpcoming.agendaPacketURL = upcomingMeeting[0].agendaPacketURL;
-      queryUpcoming.summaryURL = upcomingMeeting[0].summaryURL;
-      queryUpcoming.minutesURL = upcomingMeeting[0].minutesURL;
+      queryUpcoming.meetingType = upcomingMeeting[0].meetingtype;
+      queryUpcoming.agendaURL = upcomingMeeting[0].agendaurl;
+      queryUpcoming.agendaPacketURL = upcomingMeeting[0].agendapacketurl;
+      queryUpcoming.summaryURL = upcomingMeeting[0].summaryurl;
+      queryUpcoming.minutesURL = upcomingMeeting[0].minutesurl;
       queryUpcoming.lastUpdated = updatedTimeFormatted;
     }
   }

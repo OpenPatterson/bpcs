@@ -47,15 +47,15 @@ export const getStaticProps: GetStaticProps = async () => {
 
   allMeetings.forEach((meeting) => {
     if (
-      meeting.meetingTime != null &&
-      meeting.meetingType != null &&
-      meeting.agendaURL != null &&
-      meeting.agendaPacketURL != null &&
-      meeting.summaryURL != null &&
-      meeting.minutesURL != null &&
+      meeting.meetingtime != null &&
+      meeting.meetingtype != null &&
+      meeting.agendaurl != null &&
+      meeting.agendapacketurl != null &&
+      meeting.summaryurl != null &&
+      meeting.minutesurl != null &&
       meeting.created_at != null
     ) {
-      const meetingTimeFormatted = meeting.meetingTime.toLocaleDateString(
+      const meetingTimeFormatted = meeting.meetingtime.toLocaleDateString(
         "en-US",
         dateOptions
       );
@@ -64,13 +64,13 @@ export const getStaticProps: GetStaticProps = async () => {
         dateOptions
       );
       queriedMeetings.push({
-        id: meeting.meetingID,
+        id: meeting.meetingid,
         meetingTime: meetingTimeFormatted,
-        meetingType: meeting.meetingType,
-        agendaURL: meeting.agendaURL,
-        agendaPacketURL: meeting.agendaPacketURL,
-        summaryURL: meeting.summaryURL,
-        minutesURL: meeting.minutesURL,
+        meetingType: meeting.meetingtype,
+        agendaURL: meeting.agendaurl,
+        agendaPacketURL: meeting.agendapacketurl,
+        summaryURL: meeting.summaryurl,
+        minutesURL: meeting.minutesurl,
         lastUpdated: updatedTimeFormatted,
       });
     }

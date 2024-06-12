@@ -1,4 +1,4 @@
-import type { NextPage, GetServerSideProps } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import React, { useState } from "react";
 import Link from "next/link";
 import { prisma } from "../server/db";
@@ -20,7 +20,7 @@ type MeetingProps = {
   }[];
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const dateOptions: Record<string, string | undefined> = {
     year: "numeric",
     month: "long",

@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
@@ -29,7 +29,7 @@ type HomeProps = {
   };
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const dateOptions: Record<string, string | undefined> = {
     year: "numeric",
     month: "long",

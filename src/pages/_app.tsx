@@ -8,14 +8,6 @@ import "~/styles/globals.css";
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
-      <Script
-        data-host="https://microanalytics.io"
-        data-dnt="false"
-        src="https://microanalytics.io/js/script.js"
-        id="ZwSg9rf6GA"
-        async
-        defer
-      />
       <div className="flex min-h-screen flex-col">
         <div className="flex-grow">
           <Navbar />

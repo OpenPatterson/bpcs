@@ -30,7 +30,13 @@ const envSchema = z.object({
     .default("development"),
 });
 
-function validateEnv() {
+type Env = z.infer<typeof envSchema>;
+
+let _env: Env | undefined;
+
+export function getEnv(): Env {
+  if (_env) return _env;
+
   const parsed = envSchema.safeParse(process.env);
 
   if (!parsed.success) {
@@ -41,7 +47,14 @@ function validateEnv() {
     throw new Error("Invalid environment variables");
   }
 
-  return parsed.data;
+  _env = parsed.data;
+  return _env;
 }
 
-export const env = validateEnv();
+// Lazy proxy — validates on first property access, not at import time.
+// This prevents build failures when env vars aren't set during `next build`.
+export const env: Env = new Proxy({} as Env, {
+  get(_target, prop: string) {
+    return getEnv()[prop as keyof Env];
+  },
+});

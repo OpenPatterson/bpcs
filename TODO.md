@@ -1,4 +1,4 @@
-# BPCS Rewrite Progress
+# BPCS v2 Rewrite Progress
 
 ## Completed
 - [x] Clean repo and scaffold fresh Next.js 14+ (App Router, TS, Tailwind, shadcn/ui)
@@ -12,30 +12,47 @@
 - [x] HTML-to-Markdown utility
 - [x] Base shadcn/ui components (Button, Badge, Card, Input)
 - [x] Navbar + Footer
-- [x] UI components created by agents (meeting-card, meeting-type-badge, meeting-status-badge, countdown-timer, ai-summary-card, agenda-renderer, calendar-button, search-bar) — need review
+- [x] UI components (MeetingCard, badges, CountdownTimer, AISummaryCard, AgendaRenderer, CalendarButton, SearchBar)
+- [x] Core data layer (lib/db/meetings.ts, lib/db/users.ts, lib/dates.ts)
+- [x] Homepage with next meeting hero, countdown, AI summary preview
+- [x] Meetings archive with type/year/status filters + pagination
+- [x] Single meeting detail page with sidebar, docs, participation guide
+- [x] Calendar .ics download API
+- [x] Search page with full-text search
+- [x] About page
+- [x] NextAuth v5 (credentials provider, JWT sessions)
+- [x] Login and signup pages
+- [x] Signup API with password hashing
+- [x] Auth middleware for /account and /admin
+- [x] Your Gov section (overview, council, districts map, how-it-works)
+- [x] District map component (React Leaflet)
+- [x] Account page with profile + notification summary
+- [x] Notification preferences page + API
+- [x] Admin dashboard (stats, scraper controls, AI management)
+- [x] AI translation API (with caching in Translation table)
+- [x] AI streaming chat API for civic Q&A
+- [x] Search API endpoint
+- [x] Notification dispatch route (email via Resend + SMS via Twilio)
+- [x] Custom 404 and error pages
+- [x] sitemap.xml (static + dynamic meeting pages)
+- [x] robots.txt
+- [x] RSS feed at /feed.xml
+- [x] Rate limiting (in-memory sliding window on AI chat)
+- [x] Print styles in globals.css
 
-## In Progress
-- [ ] Core data layer: lib/db/meetings.ts, lib/db/users.ts
-- [ ] Date utilities: lib/dates.ts
-- [ ] Homepage with real data (app/(public)/page.tsx)
-- [ ] Meetings archive page (app/(public)/meetings/page.tsx)
-- [ ] Single meeting detail page (app/(public)/meetings/[id]/page.tsx)
-- [ ] Calendar .ics API route (api/calendar/[id]/route.ts)
-
-## TODO
-- [ ] NextAuth v5 setup (login, signup, magic link)
-- [ ] Your Gov section (overview, council, districts map, how-it-works)
-- [ ] Full-text search with pg_trgm
-- [ ] AI features (translation, chat widget, "explain this item")
-- [ ] Notifications (Resend email + Twilio SMS + preferences UI + cron dispatch)
-- [ ] Account pages (profile, notification preferences)
-- [ ] Admin dashboard (stats, scraper controls, AI management)
-- [ ] About page
-- [ ] Search page
-- [ ] Auth pages (login, signup, verify)
-- [ ] SEO (generateMetadata, sitemap.xml, robots.txt, OG tags)
-- [ ] RSS feed (feed.xml)
-- [ ] Print styles
-- [ ] Custom error pages (not-found.tsx, error.tsx)
-- [ ] Rate limiting on /api/ai/* and /api/auth/*
+## Remaining (nice-to-have / future work)
+- [ ] Magic link login (email-based passwordless auth)
+- [ ] Phone verification flow (Twilio Verify)
+- [ ] "Explain this item" button on individual agenda items
+- [ ] Language toggle on meeting pages (wired to translation API)
+- [ ] Address lookup for district finder (Nominatim geocoding)
+- [ ] Real district boundary polygons (replace placeholder coords)
+- [ ] Real council member data (replace TBD placeholders)
 - [ ] Plausible analytics integration
+- [ ] Rate limiting on /api/auth/* routes
+- [ ] @upstash/ratelimit for production (replace in-memory limiter)
+- [ ] Meeting type tooltips for first-time users
+- [ ] Cmd+K search modal overlay
+- [ ] Notification bell component in navbar
+- [ ] Email templates (styled HTML for Resend)
+- [ ] Agenda posted + minutes posted notification triggers

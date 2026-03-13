@@ -1,34 +1,56 @@
-# BPCS
-BPCS is the Better Patterson Council Site project. It scrapes all meeting dates, agendas, and relevant links from
-the Patterson City Council site to host it on what we hope is a better experience for residents.  
+# Better Patterson Council Site (BPCS)
 
-Any questions or feedback can be directed to Carlos at [carlos@openpatterson.org](mailto:carlos@openpatterson.org)
+A civic-tech web application making Patterson, CA local government accessible to every resident.
 
+Built by [Open Patterson](https://openpatterson.org), a volunteer civic-tech organization.
 
-# Development  
-![Excalidraw diagram of BPCS Architecture.](public/BPCS_Architecture.png)
-The Lambda function code is hosted on the [bpcs-backend repo](https://github.com/OpenPatterson/bpcs-backend).
+## Tech Stack
 
-Our site is hosted on Vercel for its great developer experience.  
+- **Framework**: Next.js 14 (App Router) + TypeScript
+- **Database**: PostgreSQL on [Neon](https://neon.tech) via Prisma ORM
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Auth**: NextAuth.js v5
+- **AI**: Anthropic Claude for agenda summarization, translation, and Q&A
+- **Notifications**: Resend (email) + Twilio (SMS)
+- **Hosting**: Railway
 
-Our MySQL DB is hosted on Planetscale. Do note, there are some differences between vanilla MySQL and Planetscale's MySQL.
+## Getting Started
 
+```bash
+# Install dependencies
+npm install
 
-## Updating Prisma Models from Planetscale DB
-If any changes were made to the schema in Planetscale, the easiest way to update Prisma's schema is to:
-1. `cd bpcs`
-2. `npx prisma db pull`
-3. `npx prisma generate`
+# Set up environment variables
+cp .env.example .env
+# Fill in your .env values
 
-## The Stack
-We partially use the T3 stack. To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+# Run database migrations
+npx prisma migrate dev
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+# Seed the database (optional, for local dev)
+npm run db:seed
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app). 
+# Start the dev server
+npm run dev
+```
 
-From this we use:  
-- [Next.js](https://nextjs.org)  
-- [Prisma](https://prisma.io)  
-- [Tailwind CSS](https://tailwindcss.com)  
+Open [http://localhost:3000](http://localhost:3000).
+
+## Project Structure
+
+```
+src/
+├── app/          # Next.js App Router pages and API routes
+├── components/   # Reusable React components
+│   └── ui/       # shadcn/ui base components
+├── lib/          # Utilities, database queries, scrapers, AI
+└── styles/       # Global CSS
+prisma/
+├── schema.prisma # Database schema
+├── seed.ts       # Seed script for local dev
+└── migrations/   # Prisma migrations
+```
+
+## License
+
+MIT — see [LICENSE](LICENSE).

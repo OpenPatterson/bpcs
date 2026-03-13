@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 84% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 5%;
+    --primary: 216 62% 26%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 350 100% 42%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 216 62% 26%;
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --navy: #1B3A6B;
+    --red: #C8102E;
+    --green: #166534;
+    --amber: #B45309;
+    --surface: #F8FAFC;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-surface text-text antialiased;
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display), Georgia, serif;
+  }
+}
+
+/* Print styles */
+@media print {
+  nav, footer, .no-print, button, [role="navigation"] {
+    display: none !important;
+  }
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+  }
+  .print-expand {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+}
+
+/* Agenda markdown rendering */
+.agenda-content h2 {
+  @apply text-lg font-bold mt-6 mb-2 text-navy;
+}
+.agenda-content h3 {
+  @apply text-base font-semibold mt-4 mb-1.5 text-navy-700;
+}
+.agenda-content ul {
+  @apply list-disc ml-6 space-y-1;
+}
+.agenda-content ol {
+  @apply list-decimal ml-6 space-y-1;
+}
+.agenda-content p {
+  @apply my-2;
+}
+.agenda-content li {
+  @apply leading-relaxed;
+}
+.agenda-content li ul {
+  @apply mt-1;
+}

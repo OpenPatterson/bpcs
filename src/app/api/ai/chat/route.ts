@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { env } from "@/lib/env";
+import { rateLimit } from "@/lib/rate-limit";
 
 const SYSTEM_PROMPT = `You are a helpful civic assistant for Patterson, CA residents. You answer questions about Patterson city government and how to participate in local government.
 
@@ -23,6 +24,16 @@ Rules:
 - Be friendly, concise, and helpful`;
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 20 requests per minute per IP
+  const ip = request.headers.get("x-forwarded-for") ?? "anonymous";
+  const { success } = rateLimit(`chat:${ip}`, 20, 60000);
+  if (!success) {
+    return new Response(
+      JSON.stringify({ error: "Too many requests" }),
+      { status: 429, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
   if (!env.ANTHROPIC_API_KEY) {
     return new Response(
       JSON.stringify({ error: "AI not configured" }),

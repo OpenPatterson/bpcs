@@ -1,4 +1,16 @@
 import { Metadata } from "next";
+import Link from "next/link";
+import { getNextMeeting, getUpcomingMeetings, getRecentMeetings } from "@/lib/db/meetings";
+import { formatMeetingDate } from "@/lib/dates";
+import { MeetingCard } from "@/components/meeting-card";
+import { MeetingTypeBadge } from "@/components/meeting-type-badge";
+import { MeetingStatusBadge } from "@/components/meeting-status-badge";
+import { CountdownTimer } from "@/components/countdown-timer";
+import { CalendarButton } from "@/components/calendar-button";
+import { SearchBar } from "@/components/search-bar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { FileText } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Home — Better Patterson Council Site",
@@ -6,42 +18,183 @@ export const metadata: Metadata = {
     "Stay informed about Patterson, CA city council meetings. View agendas, AI summaries, and sign up for meeting reminders.",
 };
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const [nextMeeting, upcoming, recent] = await Promise.all([
+    getNextMeeting(),
+    getUpcomingMeetings(5),
+    getRecentMeetings(5),
+  ]);
+
   return (
     <div className="max-w-content mx-auto px-4 py-8 sm:px-6 lg:px-8">
-      {/* Hero - Next Meeting */}
+      {/* Hero */}
       <section className="mb-12">
-        <h1 className="font-display text-3xl font-bold text-navy mb-2 sm:text-4xl">
-          Patterson City Government
-        </h1>
-        <p className="text-lg text-muted mb-8">
-          Making local government accessible to every resident.
-        </p>
-
-        <div className="rounded-lg border bg-card p-6 shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-wide text-muted mb-1">
-            Next Meeting
-          </p>
-          <p className="text-muted">
-            No upcoming meetings found. Run the scraper to populate meeting data.
-          </p>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
+          <div>
+            <h1 className="font-display text-3xl font-bold text-navy sm:text-4xl">
+              Patterson City Government
+            </h1>
+            <p className="text-lg text-muted mt-1">
+              Making local government accessible to every resident.
+            </p>
+          </div>
+          <SearchBar />
         </div>
+
+        {/* Next Meeting Hero Card */}
+        {nextMeeting ? (
+          <Card className="border-navy/20 bg-gradient-to-br from-white to-navy-50/30">
+            <CardContent className="p-6 sm:p-8">
+              <p className="text-sm font-semibold uppercase tracking-wide text-muted mb-3">
+                Next Meeting
+              </p>
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <MeetingTypeBadge type={nextMeeting.meetingType} />
+                <MeetingStatusBadge status={nextMeeting.status} />
+              </div>
+              <h2 className="font-display text-2xl font-bold text-navy mb-2">
+                {nextMeeting.title || nextMeeting.meetingType}
+              </h2>
+              <p className="text-base text-foreground mb-1">
+                {formatMeetingDate(nextMeeting.meetingTime)}
+              </p>
+              {nextMeeting.location && (
+                <p className="text-sm text-muted mb-3">{nextMeeting.location}</p>
+              )}
+
+              <div className="mb-4">
+                <CountdownTimer targetDate={nextMeeting.meetingTime} />
+              </div>
+
+              <div className="flex flex-wrap gap-3 mb-6">
+                {nextMeeting.agendaUrl && (
+                  <Button asChild variant="outline" size="sm">
+                    <a
+                      href={nextMeeting.agendaUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FileText className="mr-1.5 h-4 w-4" />
+                      View Agenda
+                    </a>
+                  </Button>
+                )}
+                <CalendarButton
+                  meetingId={nextMeeting.id}
+                  meetingTime={nextMeeting.meetingTime}
+                  meetingType={nextMeeting.meetingType}
+                  title={nextMeeting.title ?? undefined}
+                  location={nextMeeting.location ?? undefined}
+                />
+                <Button asChild variant="ghost" size="sm">
+                  <Link href={`/meetings/${nextMeeting.id}`}>Full Details</Link>
+                </Button>
+              </div>
+
+              {/* AI Summary preview */}
+              {nextMeeting.aiSummary && (
+                <div className="rounded-md border bg-amber-50/50 p-4">
+                  <p className="text-xs font-semibold text-amber-700 mb-1">
+                    AI Summary — Generated by Claude
+                  </p>
+                  <p className="text-sm text-foreground line-clamp-3">
+                    {nextMeeting.aiSummary.summary}
+                  </p>
+                </div>
+              )}
+
+              {/* Agenda teaser if no AI summary */}
+              {!nextMeeting.aiSummary && nextMeeting.agenda && (
+                <div className="rounded-md border bg-surface p-4">
+                  <p className="text-xs font-semibold text-muted mb-1">
+                    Agenda Preview
+                  </p>
+                  <p className="text-sm text-foreground line-clamp-3">
+                    {nextMeeting.agenda.agendaMd.slice(0, 300)}...
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        ) : (
+          <Card>
+            <CardContent className="p-6">
+              <p className="text-sm font-semibold uppercase tracking-wide text-muted mb-1">
+                Next Meeting
+              </p>
+              <p className="text-muted">
+                No upcoming meetings found. Check back soon or run the scraper to
+                populate meeting data.
+              </p>
+            </CardContent>
+          </Card>
+        )}
       </section>
 
       {/* Upcoming Meetings */}
       <section className="mb-12">
-        <h2 className="font-display text-2xl font-bold text-navy mb-4">
-          Upcoming Meetings
-        </h2>
-        <p className="text-muted">No upcoming meetings yet.</p>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-display text-2xl font-bold text-navy">
+            Upcoming Meetings
+          </h2>
+          <Link href="/meetings?status=upcoming" className="text-sm text-navy hover:underline">
+            View all
+          </Link>
+        </div>
+        {upcoming.length > 0 ? (
+          <div className="space-y-2">
+            {upcoming.map((m) => (
+              <MeetingCard
+                key={m.id}
+                id={m.id}
+                meetingTime={m.meetingTime}
+                meetingType={m.meetingType}
+                title={m.title}
+                status={m.status}
+                agendaUrl={m.agendaUrl}
+                minutesUrl={m.minutesUrl}
+                hasAiSummary={!!m.aiSummary}
+                compact
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted">No upcoming meetings scheduled.</p>
+        )}
       </section>
 
       {/* Recent Meetings */}
       <section className="mb-12">
-        <h2 className="font-display text-2xl font-bold text-navy mb-4">
-          Recent Meetings
-        </h2>
-        <p className="text-muted">No recent meetings yet.</p>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-display text-2xl font-bold text-navy">
+            Recent Meetings
+          </h2>
+          <Link href="/meetings" className="text-sm text-navy hover:underline">
+            View archive
+          </Link>
+        </div>
+        {recent.length > 0 ? (
+          <div className="space-y-2">
+            {recent.map((m) => (
+              <MeetingCard
+                key={m.id}
+                id={m.id}
+                meetingTime={m.meetingTime}
+                meetingType={m.meetingType}
+                title={m.title}
+                status={m.status}
+                agendaUrl={m.agendaUrl}
+                minutesUrl={m.minutesUrl}
+                hasAiSummary={!!m.aiSummary}
+                compact
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted">No recent meetings yet.</p>
+        )}
       </section>
 
       {/* Notification Strip */}

@@ -1,6 +1,9 @@
 # BPCS v2 Rewrite Progress
 
 ## Completed
+- [x] Fix: Hydration error from nested `<a>` tags in MeetingCard (rewrote to div+onClick)
+- [x] Fix: Planning Commission badge invisible (switched to inline style hex colors)
+- [x] Upgrade: Next.js 14 → 15.5.12, React 18 → 19 (moved dynamic ssr:false to client component)
 - [x] Clean repo and scaffold fresh Next.js 14+ (App Router, TS, Tailwind, shadcn/ui)
 - [x] Prisma schema (Meeting, Agenda, AISummary, Translation, User, Auth, NotificationPreference, NotificationLog)
 - [x] Seed script with 5 fake meetings

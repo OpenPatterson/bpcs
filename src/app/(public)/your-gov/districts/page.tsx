@@ -1,20 +1,11 @@
 import { Metadata } from "next";
-import dynamic from "next/dynamic";
+import DistrictMapLoader from "@/components/district-map-loader";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "District Map",
   description: "Interactive map of Patterson, CA city council districts. Find your district.",
 };
-
-const DistrictMap = dynamic(() => import("@/components/district-map"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[500px] rounded-lg border bg-surface flex items-center justify-center">
-      <p className="text-muted">Loading map...</p>
-    </div>
-  ),
-});
 
 export default function DistrictsPage() {
   return (
@@ -28,7 +19,7 @@ export default function DistrictsPage() {
       </p>
 
       <div className="mb-8">
-        <DistrictMap />
+        <DistrictMapLoader />
       </div>
 
       <Card>

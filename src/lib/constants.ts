@@ -26,17 +26,30 @@ export const MEETING_TYPE_COLORS: Record<string, string> = {
   "Senior Center Board of Directors": "badge-senior",
 };
 
-export const MEETING_TYPE_BADGE_STYLES: Record<string, string> = {
-  "City Council": "bg-navy text-white",
-  "Planning Commission": "bg-teal-600 text-white",
-  "Downtown Revitalization Committee": "bg-indigo-600 text-white",
-  "Parks, Recreation & Beautification Commission": "bg-green-700 text-white",
-  "Senior Commission": "bg-purple-600 text-white",
-  "Economic Strategic Commission": "bg-orange-600 text-white",
-  "Legal Notices & Public Hearings": "bg-red-600 text-white",
-  "Public Safety Committee": "bg-red-700 text-white",
-  "Senior Center Board of Directors": "bg-purple-500 text-white",
+/**
+ * Badge colors as inline style objects.
+ * Using inline styles because dynamic Tailwind class names in constants
+ * are not detected by Tailwind's JIT content scanner, causing invisible badges.
+ */
+export const MEETING_TYPE_BADGE_COLORS: Record<
+  string,
+  { bg: string; text: string }
+> = {
+  "City Council": { bg: "#1B3A6B", text: "#FFFFFF" },
+  "Planning Commission": { bg: "#0D9488", text: "#FFFFFF" },
+  "Downtown Revitalization Committee": { bg: "#4F46E5", text: "#FFFFFF" },
+  "Parks, Recreation & Beautification Commission": {
+    bg: "#166534",
+    text: "#FFFFFF",
+  },
+  "Senior Commission": { bg: "#7C3AED", text: "#FFFFFF" },
+  "Economic Strategic Commission": { bg: "#EA580C", text: "#FFFFFF" },
+  "Legal Notices & Public Hearings": { bg: "#C8102E", text: "#FFFFFF" },
+  "Public Safety Committee": { bg: "#B91C1C", text: "#FFFFFF" },
+  "Senior Center Board of Directors": { bg: "#A855F7", text: "#FFFFFF" },
 };
+
+export const DEFAULT_BADGE_COLOR = { bg: "#E5E7EB", text: "#1F2937" };
 
 export const STATUS_BADGE_STYLES: Record<string, string> = {
   upcoming: "bg-blue-100 text-blue-800 border-blue-200",
